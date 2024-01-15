@@ -35,9 +35,9 @@ var _ propagation.TextMapCarrier = (*Carrier)(nil)
 var _ json.Marshaler = (*Carrier)(nil)
 var _ json.Unmarshaler = (*Carrier)(nil)
 
-// setup is a helper method which initializes the MapCarrier
+// ensureCarrierNotNil is a helper method which initializes the MapCarrier
 // It should be called before any access on the MapCarrier to prevent nil pointer dereference
-func (d *Carrier) setup() {
+func (d *Carrier) ensureCarrierNotNil() {
 	if d.Carrier == nil {
 		d.Carrier = make(propagation.MapCarrier)
 	}
@@ -45,25 +45,25 @@ func (d *Carrier) setup() {
 
 // Get implements propagation.TextMapCarrier by delegating the call to the underlying MapCarrier
 func (d *Carrier) Get(s string) string {
-	d.setup()
+	d.ensureCarrierNotNil()
 	return d.Carrier.Get(s)
 }
 
 // Set implements propagation.TextMapCarrier by delegating the call to the underlying MapCarrier
 func (d *Carrier) Set(key, value string) {
-	d.setup()
+	d.ensureCarrierNotNil()
 	d.Carrier.Set(key, value)
 }
 
 // Keys implements propagation.TextMapCarrier by delegating the call to the underlying MapCarrier
 func (d *Carrier) Keys() []string {
-	d.setup()
+	d.ensureCarrierNotNil()
 	return d.Carrier.Keys()
 }
 
 // MarshalJSON implements json.Marshaler by delegating the call to the underlying MapCarrier
 func (d Carrier) MarshalJSON() ([]byte, error) {
-	d.setup()
+	d.ensureCarrierNotNil()
 	return json.Marshal(d.Carrier)
 }
 
@@ -103,7 +103,7 @@ func (d *Carrier) InjectContext(ctx context.Context) *Carrier {
 // It can be used in cases which don't want propagation, e.g. sending to 3rd party services.
 func (d *Carrier) ClearContext() *Carrier {
 	d.Carrier = nil
-	d.setup()
+	d.ensureCarrierNotNil()
 	return d
 }
 
