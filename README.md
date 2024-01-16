@@ -1,6 +1,6 @@
-# Open Telemetry Tracing tools
+# Open Telemetry Adapters
 
-This repository contains tools for working with Open Telemetry traces.
+This repository contains carrier adapters for working with Open Telemetry traces.
 
 ## carrier
 
@@ -14,7 +14,7 @@ Usage in producer:
 
 ```go
 // Producer
-import pulsar_otel "github.com/chung-shopline/open-telemetry-tracing/pulsar"
+import pulsar_otel "github.com/shoplineapp/open-telemetry-adapters/pulsar"
 
 // ctx contains the span context
 ctx, span := otel.Tracer("my-app").Start(ctx, "pulsar-producer")
@@ -29,7 +29,7 @@ Usage in consumer:
 
 ```go
 // Producer
-import pulsar_otel "github.com/chung-shopline/open-telemetry-tracing/pulsar"
+import pulsar_otel "github.com/shoplineapp/open-telemetry-adapters/pulsar"
 
 func myConsumer(ctx context.Context, msg pulsar.ConsumerMessage) error {
   // extract tracing info from message into ctx
