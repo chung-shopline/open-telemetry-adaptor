@@ -28,7 +28,7 @@ import (
 // myEventMessage.Carrier.InjectContext(ctx)
 // ctx := myEventMessage.Carrier.PropagateIntoContext(ctx)
 type Carrier struct {
-	Carrier propagation.MapCarrier
+	Carrier propagation.MapCarrier `bson:",inline"`
 }
 
 var _ propagation.TextMapCarrier = (*Carrier)(nil)
